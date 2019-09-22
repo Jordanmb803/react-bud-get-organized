@@ -25,7 +25,7 @@ massive(CONNECTION_STRING).then(db => {
 app.use(express.static(`${__dirname}/../build`));
 
 app.use(session({
-  secret: 'sup dude',
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }))
@@ -35,9 +35,15 @@ app.use(passport.session())
 passport.use(strategy)
 
 passport.serializeUser(function(user, done) {
-  app.get('db').find_or_create_user_by_email([user.emails[0].value]).then(currentUser => {
-    console.log(`User created ${currentUser[0].email}`)
-    done(null, { id: currentUser[0].id, name: currentUser[0].name, email: currentUser[0].email });
+  app.get('db').create_user_if_nil([user.emails[0].value]).then(userCreated => {
+    if(userCreated) {
+      console.log(`User created ${userCreated[0].email}`)
+      done(null, { id: userCreated[0].id, name: userCreated[0].name, email: userCreated[0].email });
+    } else {
+      app.get('db').find_user_by_email([user.emails[0].value]).then(currentUser => {
+        done(null, { id: currentUser[0].id, name: currentUser[0].name, email: currentUser[0].email });
+      })
+    }
   })
 });
 
@@ -55,9 +61,8 @@ app.get('/me', ( req, res, next) => {
   if ( !req.user ) {
     res.redirect('/login');
   } else {
-    // req.user === req.session.passport.user
-    // console.log( req.user )
-    // console.log( req.session.passport.user );
+    console.log( req.user )
+    console.log( req.session.passport.user );
     // res.status(200).send( JSON.stringify( req.user, null, 10 ) );
     res.redirect('http://localhost:3000')
   }

@@ -1,0 +1,6 @@
+INSERT INTO users(email) 
+    SELECT $1
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE email=$1
+)
+RETURNING *;
