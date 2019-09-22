@@ -35,8 +35,10 @@ app.use(passport.session())
 passport.use(strategy)
 
 passport.serializeUser(function(user, done) {
-  console.log(user.id)
-  done(null, { id: user.id, display: user.displayName, nickname: user.nickname, email: user.emails[0].value });
+  app.get('db').find_or_create_user_by_email([user.emails[0].value]).then(currentUser => {
+    console.log(`User created ${currentUser[0].email}`)
+    done(null, { id: currentUser[0].id, name: currentUser[0].name, email: currentUser[0].email });
+  })
 });
 
 passport.deserializeUser(function(obj, done) {
