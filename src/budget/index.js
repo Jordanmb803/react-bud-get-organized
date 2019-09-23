@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { getUser } from '../ducks/user';
 
-export default class Budget extends Component {
+class Budget extends Component {
   constructor() {
     super()
     this.state = {
@@ -10,8 +12,10 @@ export default class Budget extends Component {
   }
 
   componentDidMount() {
+    this.props.getUser()
+
     axios.get('/bills').then(res => {
-      console.log(res)
+      console.log(res.data)
       this.setState({
         bills: res.data
       })
@@ -19,6 +23,7 @@ export default class Budget extends Component {
   }
 
   render() {
+    console.log(this.props.user)
     return(
       <div>
         {this.state.bills.map(b => {
@@ -30,3 +35,11 @@ export default class Budget extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, { getUser })(Budget)
