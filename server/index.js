@@ -36,14 +36,10 @@ passport.use(strategy)
 
 passport.serializeUser(function(user, done) {
   app.get('db').create_user_if_nil([user.emails[0].value]).then(userCreated => {
-    if(userCreated) {
-      console.log(`User created ${userCreated[0].email}`)
-      done(null, { id: userCreated[0].id, name: userCreated[0].name, email: userCreated[0].email });
-    } else {
-      app.get('db').find_user_by_email([user.emails[0].value]).then(currentUser => {
+    app.get('db').find_user_by_email([user.emails[0].value]).then(currentUser => {
+        console.log(`Current user ${currentUser[0].email}`)
         done(null, { id: currentUser[0].id, name: currentUser[0].name, email: currentUser[0].email });
       })
-    }
   })
 });
 
@@ -61,12 +57,18 @@ app.get('/me', ( req, res, next) => {
   if ( !req.user ) {
     res.redirect('/login');
   } else {
-    console.log( req.user )
-    console.log( req.session.passport.user );
-    // res.status(200).send( JSON.stringify( req.user, null, 10 ) );
     res.redirect('http://localhost:3000')
   }
-});
+})
+
+app.get('/user/data', (req, res, next) => {
+  if(!req.user) {
+    res.redirect('/login')
+  } else {
+    console.log(req.user)
+    res.status(200).send(req.user)
+  }
+})
 
 app.get("/bills", bills_controller.getAllBills)
 
