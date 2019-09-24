@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const initialState = {
-  bills: {},
+  bills: [],
   date: new Date()
 }
 
