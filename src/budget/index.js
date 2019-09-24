@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { getUser } from '../ducks/user';
+import { getBills } from '../ducks/reducers/bills';
+import { thisExpression } from '@babel/types';
 
 class Budget extends Component {
-  constructor() {
-    super()
-    this.state = {
-      bills: []
-    }
+  constructor(props) {
+    super(props)
+    this.state = {}
   }
 
   componentDidMount() {
-    this.props.getUser()
-
-    axios.get('/bills').then(res => {
-      console.log(res.data)
-      this.setState({
-        bills: res.data
-      })
-    })
+    this.props.getBills()
   }
 
   render() {
-    console.log(this.props.user)
     return(
       <div>
-        {this.state.bills.map(b => {
-          return(
-          <p key={b.id}>{b.bill_amount}</p>
-          )
-        }) }
       </div>
     )
   }
@@ -38,8 +23,8 @@ class Budget extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    bills: state.bills
   }
 }
 
-export default connect(mapStateToProps, { getUser })(Budget)
+export default connect(mapStateToProps, { getBills })(Budget)
