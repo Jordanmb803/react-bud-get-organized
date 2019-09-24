@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBills } from '../ducks/reducers/bills';
-import { thisExpression } from '@babel/types';
+import { getBills } from '../../ducks/reducers/bills';
+import Bill from '../bill/index'
 
 class Budget extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
+  constructor() {
+    super()
+    this.state = {
+      bills: {}
+    }
   }
 
   componentDidMount() {
@@ -14,8 +16,12 @@ class Budget extends Component {
   }
 
   render() {
+    console.log(this.props.bills)
     return(
       <div>
+        {this.props.bills.map((bill, i) =>(
+          <Bill bill={bill}/>
+        ))}
       </div>
     )
   }
@@ -23,7 +29,7 @@ class Budget extends Component {
 
 function mapStateToProps(state) {
   return {
-    bills: state.bills
+    bills: state.bills.bills
   }
 }
 

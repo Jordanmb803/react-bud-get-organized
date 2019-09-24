@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Budget from './budget/index'
+import Budget from './components/budget/index'
 
 function App() {
   return (
