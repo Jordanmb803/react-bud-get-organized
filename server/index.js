@@ -70,7 +70,7 @@ app.get('/user/data', (req, res, next) => {
   }
 })
 
-app.get("/bills", bills_controller.getAllBills)
+app.get('/bills/month/:month', bills_controller.getMonthlyBills)
 
 app.listen(SERVER_PORT, () => {
   console.log(`Server listening on port ${SERVER_PORT}`)
