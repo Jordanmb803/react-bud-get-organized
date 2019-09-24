@@ -1,8 +1,10 @@
-import { createStore } from 'redux';
-import { applyMiddleware } from 'redux';
-import reducer from './user';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './reducers/index';
 import promiseMiddleWare from 'redux-promise-middleware';
 
-const store = createStore(reducer, applyMiddleware(promiseMiddleWare))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  reducer, /* preloadedState, */ composeEnhancers(applyMiddleware(promiseMiddleWare)
+))
 
 export default store;
