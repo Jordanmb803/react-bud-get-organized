@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { thisExpression } from '@babel/types';
 
 class Bill extends Component {
   constructor(){
@@ -23,14 +22,18 @@ class Bill extends Component {
       id: this.props.bill.id,
       name: this.props.bill.name,
       bill_amount: this.props.bill.bill_amount,
-      due_date: this.props.bill.due_date,
+      due_date: new Date(this.props.bill.due_date).getDate(),
       paid_amount: this.props.bill.paid_amount,
       paid: this.props.bill.paid
     })
   }
 
   updateBill() {
-    const { id, name, bill_amount, due_date, paid_amount, paid } = this.state
+    const { id, name, bill_amount, paid_amount, paid } = this.state
+    let year = new Date().getFullYear()
+    let currentMonth = new Date().getMonth()
+
+    let due_date = new Date(year, currentMonth, this.state.due_date)
     axios.put(`/bill/update`, {id, name, bill_amount, due_date, paid_amount, paid })
       .then(res => {
         this.setState({
