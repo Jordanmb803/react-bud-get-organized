@@ -14,7 +14,16 @@ module.exports = {
         res.status(200).send(bills)
       }).catch( err => {
         console.log(`error trying to get monthly bills`)
-        res.status(500).send(bills)
+        res.status(500).send(err)
+      })
+  },
+  updateBill: (req, res) => {
+    const { id, name, bill_amount, due_date, paid_amount, paid} = req.body
+    req.app.get('db').update_bill([id, name, bill_amount, due_date, paid_amount, paid])
+      .then(bill => {
+        res.status(200).send(bill)
+      }).catch(err => {
+        res.status(500).send(err)
       })
   }
-}
+} 
