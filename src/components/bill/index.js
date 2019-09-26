@@ -88,6 +88,9 @@ class Bill extends Component {
           <button hidden={!this.state.editable} onClick={() => this.updateBill()}>
             DONE
           </button>
+          <button onClick={() => this.props.deleteBill(this.props.bill.id) }>
+            DELETE
+          </button>
         </td> 
       </tr>
     )

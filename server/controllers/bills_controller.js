@@ -31,5 +31,10 @@ module.exports = {
       .then(bill => {
         res.status(200).send(bill)
       })
+  },
+  deleteBill: (req, res) => {
+    req.app.get('db').delete_bill([req.params.id]).then(ok => {
+      res.sendStatus(200)
+    })
   }
 } 
