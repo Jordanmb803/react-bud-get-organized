@@ -28,31 +28,35 @@ class NewBill extends Component {
 
   render(){
     return(
-      <div>
+      <tr>
         {this.state.columns.map((col, i) => {
           let key = col[0]
           return(
-          <input
-            key={key + i}
-            type={col[1]}
-            placeholder={key}
-            value={this.state[key]}
-            onChange={e => this.setState({[key]: e.target.value})}
-          />
+          <td key={key + i}>
+            <input
+              type={col[1]}
+              placeholder={key}
+              value={this.state[key]}
+              onChange={e => this.setState({[key]: e.target.value})}
+            />
+          </td>
         )})}
         {this.state.checkboxes.map((col, i) => {
           return(
-            <input
-              key={col + i}
-              type='checkbox'
-              value={this.state[col]}
-              onClick={e => this.setState({[col]: e.target.value})} 
-            />
+            <td key={col + i}>
+              <input
+                type='checkbox'
+                value={this.state[col]}
+                onClick={e => this.setState({[col]: e.target.value})} 
+              />
+            </td>
         )})}
-        <a href='/#/budget'>
-          <button onClick={() => this.createBill()}>Create Bill</button>
-        </a>
-      </div>
+        <td>
+          <a href='/#/budget'>
+            <button onClick={() => this.createBill()}>Create Bill</button>
+          </a>
+        </td>
+      </tr>
     )
   }
 }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getBills } from '../../ducks/reducers/bills';
 import Bill from '../bill/index'
 import NewBill from '../bill/new'
-import Axios from 'axios';
 
 class Budget extends Component {
   constructor() {
