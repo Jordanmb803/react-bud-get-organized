@@ -14,7 +14,7 @@ class Bill extends Component {
       paid_amount: 0,
       paid: false,
       editable: false,
-      columns: [['name', 'text'], ['bill_amount', 'text'], ['due_date', 'date'], ['paid_amount', 'text']]
+      columns: [['name', 'text'], ['bill_amount', 'text'], ['paid_amount', 'text'], ['due_date', 'date']]
     }
     this.updateBill = this.updateBill.bind(this)
     this.handleInput = this.handleInput.bind(this)

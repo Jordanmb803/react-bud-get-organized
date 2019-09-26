@@ -54,8 +54,8 @@ class Budget extends Component {
             <tr>
               <th>Rent</th>
               <th>Amount Due</th>
-              <th>Due Date</th>
               <th>Amount Paid</th>
+              <th>Due Date</th>
               <th>Paid?</th>
             </tr>
             {this.props.bills.map((bill, i) =>(
@@ -64,14 +64,17 @@ class Budget extends Component {
             {this.state.newBill ? <NewBill action={this.billCreatedOrEdited} /> : null}
             <tr>
               <td>
+                <strong>Totals:</strong>
               </td>
               <td>
-                {this.props.totals.bill_amount_total}
+                ${this.props.totals.bill_amount_total}
               </td>
               <td>
+                ${this.props.totals.paid_amount_total}
               </td>
               <td>
-                {this.props.totals.paid_amount_total}
+                <strong>Remaining Bills: </strong>
+                ${this.props.totals.bills_remaining_total}
               </td>
             </tr>
           </tbody>

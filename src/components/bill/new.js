@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 class NewBill extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       name: '',
       bill_amount: 0,
@@ -12,9 +12,11 @@ class NewBill extends Component {
       recurring: false,
       paid_amount: 0,
       columns: [['name', 'text'], ['bill_amount', 'text'], ['due_date', 'date'], ['paid_amount', 'text']],
-      checkboxes: ['paid', 'recurring']
+      checkboxes: ['paid']
     }
     this.createBill = this.createBill.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleInput = this.handleInput.bind(this)
   }
 
   createBill() {
@@ -24,6 +26,36 @@ class NewBill extends Component {
         console.log(`record created`)
         this.props.action(res.data)
       })
+  }
+
+  handleClick() {
+    this.setState({
+      paid: !this.state.paid
+    })
+    if(this.state.paid === false) {
+      this.setState({
+        paid_amount: this.state.bill_amount
+      })
+    } else {
+      this.setState({
+        paid_amount: 0
+      })
+    }
+  }
+
+  handleInput(e, col) {
+    let paid = this.state.paid
+    e == this.state.bill_amount ? paid = true : paid = false
+
+    if(paid) {
+      this.setState({
+        paid_amount: this.state.bill_amount,
+      })
+    }
+    this.setState({
+      [col]: e,
+      paid: paid
+    })
   }
 
   render(){
@@ -37,7 +69,7 @@ class NewBill extends Component {
               type={col[1]}
               placeholder={key}
               value={this.state[key]}
-              onChange={e => this.setState({[key]: e.target.value})}
+              onChange={e => this.handleInput(e.target.value, key)}
             />
           </td>
         )})}
@@ -47,14 +79,14 @@ class NewBill extends Component {
               <input
                 type='checkbox'
                 value={this.state[col]}
-                onClick={e => this.setState({[col]: e.target.value})} 
+                checked={this.state[col]}
+                onChange={e => this.handleClick()} 
               />
             </td>
         )})}
         <td>
-          <a href='/#/budget'>
+            <button onClick={() => this.props.action()}>Cancel</button>
             <button onClick={() => this.createBill()}>Create Bill</button>
-          </a>
         </td>
       </tr>
     )
