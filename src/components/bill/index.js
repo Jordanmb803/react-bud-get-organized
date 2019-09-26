@@ -89,7 +89,7 @@ class Bill extends Component {
             DONE
           </button>
           <button onClick={() => this.props.deleteBill(this.props.bill.id) }>
-            DELETE
+            REMOVE
           </button>
         </td> 
       </tr>
