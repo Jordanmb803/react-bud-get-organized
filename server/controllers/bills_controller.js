@@ -22,17 +22,14 @@ module.exports = {
     req.app.get('db').update_bill([id, name, bill_amount, due_date, paid_amount, paid])
       .then(bill => {
         res.status(200).send(bill)
-      }).catch(err => {
-        res.status(500).send(err)
       })
   },
   createBill: (req, res) => {
-    const { name, bill_amount, due_date, paid_amount, paid } = req.body
-    req.app.get('db').create_bill([name, bill_amount, due_date, paid_amount, paid, req.user.id])
+    const { name, bill_amount, due_date, paid, recurring, paid_amount } = req.body
+    console.log(req.user.id)
+    req.app.get('db').create_bill([name, bill_amount, due_date, paid, recurring, paid_amount, req.user.id])
       .then(bill => {
         res.status(200).send(bill)
-      }).catch(err => {
-        res.status(500).send(err)
       })
   }
 } 

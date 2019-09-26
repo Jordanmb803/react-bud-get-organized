@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux'
+import { getBills } from '../../ducks/reducers/bills'
 
 class Bill extends Component {
   constructor(){
@@ -82,7 +84,7 @@ class Bill extends Component {
         <td>
           <button hidden={this.state.editable} onClick={e => this.setState({editable: true })}>
             Edit
-            </button>
+          </button>
           <button hidden={!this.state.editable} onClick={() => this.updateBill()}>
             DONE
           </button>
@@ -92,4 +94,10 @@ class Bill extends Component {
   }
 }
 
-export default Bill
+function mapStateToProps(state) {
+  return {
+    bills: state.bills
+  }
+}
+
+export default connect(mapStateToProps, { getBills })(Bill)

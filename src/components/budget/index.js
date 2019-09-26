@@ -18,6 +18,7 @@ class Budget extends Component {
   render() {
     return(
       <div>
+        <a href='/#/budget/bill/new' ><p>Add Bill</p></a>
         <table>
           <tbody>
             <tr>
