@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBills } from '../../ducks/reducers/bills';
+import { getBills, getMonthlyBillTotal } from '../../ducks/reducers/bills';
 import Bill from '../bill/index'
 import NewBill from '../bill/new'
 import Axios from 'axios';
@@ -12,22 +12,24 @@ class Budget extends Component {
         newBill: false,
         deletedBill: false
     }
-    this.billCreated = this.billCreated.bind(this)
+    this.billCreatedOrEdited = this.billCreatedOrEdited.bind(this)
     this.deleteBill = this.deleteBill.bind(this)
   }
 
   componentDidMount() {
     this.props.getBills()
+    this.props.getMonthlyBillTotal()
   }
 
   componentDidUpdate(prevProps, prevState){
     if(this.state !== prevState){
       console.log(`state changed`)
       this.props.getBills()
+      this.props.getMonthlyBillTotal()
     }
   }
 
-  billCreated(bill) {
+  billCreatedOrEdited() {
     this.setState({
       newBill: false,
     })
@@ -57,9 +59,21 @@ class Budget extends Component {
               <th>Paid?</th>
             </tr>
             {this.props.bills.map((bill, i) =>(
-              <Bill key={i + bill.name} bill={bill} deleteBill={this.deleteBill}/>
+              <Bill key={i + bill.name} bill={bill} action={this.billCreatedOrEdited} deleteBill={this.deleteBill}/>
             ))}
-            { this.state.newBill ? <NewBill action={this.billCreated} /> : null }
+            {this.state.newBill ? <NewBill action={this.billCreatedOrEdited} /> : null}
+            <tr>
+              <td>
+              </td>
+              <td>
+                {this.props.totals.bill_amount_total}
+              </td>
+              <td>
+              </td>
+              <td>
+                {this.props.totals.paid_amount_total}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -69,8 +83,9 @@ class Budget extends Component {
 
 function mapStateToProps(state) {
   return {
-    bills: state.bills.bills
+    bills: state.bills.bills,
+    totals: state.bills.totals
   }
 }
 
-export default connect(mapStateToProps, { getBills })(Budget)
+export default connect(mapStateToProps, { getBills, getMonthlyBillTotal })(Budget)

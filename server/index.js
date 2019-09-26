@@ -71,6 +71,7 @@ app.get('/user/data', (req, res, next) => {
 })
 
 app.get('/bills/month/:month', bills_controller.getMonthlyBills)
+app.get('/bills/totals/month/:month', bills_controller.getMonthlyBillsTotal)
 app.put('/bill/update', bills_controller.updateBill)
 app.post('/bill/create', bills_controller.createBill)
 app.delete('/bill/:id/delete', bills_controller.deleteBill)

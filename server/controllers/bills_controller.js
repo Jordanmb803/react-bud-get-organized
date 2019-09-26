@@ -36,5 +36,13 @@ module.exports = {
     req.app.get('db').delete_bill([req.params.id]).then(ok => {
       res.sendStatus(200)
     })
+  },
+  getMonthlyBillsTotal: (req, res) => {
+    req.app.get('db').get_monthly_bills_totals([req.user.id, req.params.month])
+      .then(totals => {
+        console.log(totals)
+        console.log(`totals returned`)
+        res.status(200).send(totals)
+      })
   }
 } 

@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { getBills } from '../../ducks/reducers/bills'
 
 class Bill extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       id: 0,
       name: '',
@@ -17,31 +17,33 @@ class Bill extends Component {
       columns: [['name', 'text'], ['bill_amount', 'text'], ['due_date', 'date'], ['paid_amount', 'text']]
     }
     this.updateBill = this.updateBill.bind(this)
+    this.handleInput = this.handleInput.bind(this)
   }
 
   componentDidMount(){
-    let paid_amount = this.props.bill.paid ? this.props.bill.bill_amount : 0
     this.setState({
       id: this.props.bill.id,
       name: this.props.bill.name,
       bill_amount: this.props.bill.bill_amount,
       due_date: this.props.bill.due_date.split('T')[0],
-      paid_amount: paid_amount,
+      paid_amount: this.props.bill.paid_amount,
       paid: this.props.bill.paid,
     })
   }
 
   updateBill() {
-    const { id, name, bill_amount, due_date, paid_amount, paid } = this.state
+    let { id, name, bill_amount, due_date, paid_amount, paid } = this.state
+
     axios.put(`/bill/update`, {id, name, bill_amount, due_date, paid_amount, paid })
       .then(res => {
         this.setState({
           editable: false
         })
+      this.props.action()
     })
   }
 
-  handleClick(e) {
+  handleClick() {
     this.setState({
       paid: !this.state.paid
     })
@@ -56,6 +58,21 @@ class Bill extends Component {
     }
   }
 
+  handleInput(e, col) {
+    let paid = this.state.paid
+    e == this.state.bill_amount ? paid = true : paid = false
+
+    if(paid) {
+      this.setState({
+        paid_amount: this.state.bill_amount,
+      })
+    }
+    this.setState({
+      [col]: e,
+      paid: paid
+    })
+  }
+
   render(){
     return(
       <tr key={this.props.bill.name + this.props.bill.id}>
@@ -67,7 +84,7 @@ class Bill extends Component {
                 readOnly={!this.state.editable}
                 type={k[1]}
                 value={this.state[col]}
-                onChange={ e => this.setState({[col]: e.target.value})}
+                onChange={ e => this.handleInput(e.target.value, col)}
                 />
             </td>
           )
