@@ -13,6 +13,7 @@ class Budget extends Component {
         deletedBill: false
     }
     this.billCreated = this.billCreated.bind(this)
+    this.deleteBill = this.deleteBill.bind(this)
   }
 
   componentDidMount() {
@@ -21,9 +22,7 @@ class Budget extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(this.state !== prevState){
-      this.props.getBills()
-    }
-    if(prevProps !== this.props){
+      console.log(`state changed`)
       this.props.getBills()
     }
   }
@@ -37,6 +36,9 @@ class Budget extends Component {
   deleteBill(bill_id) {
     Axios.delete(`/bill/${bill_id}/delete`).then(res =>{
       console.log(`bill deleted`)
+      this.setState({
+         deletedBill: true
+       })
     })
   }
 
