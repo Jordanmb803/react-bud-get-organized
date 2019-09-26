@@ -18,12 +18,13 @@ class Bill extends Component {
   }
 
   componentDidMount(){
+    let paid_amount = this.props.bill.paid ? this.props.bill.bill_amount : 0
     this.setState({
       id: this.props.bill.id,
       name: this.props.bill.name,
       bill_amount: this.props.bill.bill_amount,
       due_date: this.props.bill.due_date.split('T')[0],
-      paid_amount: this.props.bill.paid_amount,
+      paid_amount: paid_amount,
       paid: this.props.bill.paid,
     })
   }
@@ -36,6 +37,21 @@ class Bill extends Component {
           editable: false
         })
     })
+  }
+
+  handleClick(e) {
+    this.setState({
+      paid: !this.state.paid
+    })
+    if(this.state.paid == false) {
+      this.setState({
+        paid_amount: this.state.bill_amount
+      })
+    } else {
+      this.setState({
+        paid_amount: 0
+      })
+    }
   }
 
   render(){
@@ -60,7 +76,7 @@ class Bill extends Component {
             type="checkbox"
             value={this.state.paid}
             checked={this.state.paid}
-            onClick={ e => this.setState({paid: !this.state.paid})}
+            onClick={ e => this.handleClick(e)}
           />
         </td>
         <td>
