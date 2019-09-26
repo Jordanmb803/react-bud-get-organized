@@ -22,6 +22,7 @@ class NewBill extends Component {
     axios.post('/bill/create', {name, bill_amount, due_date, paid, recurring, paid_amount})
       .then(res => {
         console.log(`record created`)
+        this.props.action(res.data)
       })
   }
 
