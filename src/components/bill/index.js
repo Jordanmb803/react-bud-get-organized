@@ -43,7 +43,7 @@ class Bill extends Component {
     this.setState({
       paid: !this.state.paid
     })
-    if(this.state.paid == false) {
+    if(this.state.paid === false) {
       this.setState({
         paid_amount: this.state.bill_amount
       })
@@ -72,7 +72,7 @@ class Bill extends Component {
         })}
         <td>
           <input
-            readOnly={!this.state.editable}
+            disabled={!this.state.editable}
             type="checkbox"
             value={this.state.paid}
             checked={this.state.paid}
