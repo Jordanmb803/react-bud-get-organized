@@ -11,7 +11,7 @@ class NewBill extends Component {
       paid: false,
       recurring: false,
       paid_amount: 0,
-      columns: [['name', 'text'], ['bill_amount', 'text'], ['due_date', 'date'], ['paid_amount', 'text']],
+      columns: [['name', 'text'], ['bill_amount', 'text'], ['paid_amount', 'text'], ['due_date', 'date']],
       checkboxes: ['paid']
     }
     this.createBill = this.createBill.bind(this)
@@ -77,6 +77,7 @@ class NewBill extends Component {
           return(
             <td key={col + i}>
               <input
+                className="paid_input"
                 type='checkbox'
                 value={this.state[col]}
                 checked={this.state[col]}
@@ -85,8 +86,10 @@ class NewBill extends Component {
             </td>
         )})}
         <td>
-            <button onClick={() => this.props.action()}>Cancel</button>
-            <button onClick={() => this.createBill()}>Create Bill</button>
+            <button className="red" onClick={() => this.props.action()}>Cancel</button>
+        </td>
+        <td>
+          <button className="green" onClick={() => this.createBill()}>Create Bill</button>
         </td>
       </tr>
     )

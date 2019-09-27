@@ -4,6 +4,7 @@ import { getBills, getMonthlyBillTotal } from '../../ducks/reducers/bills';
 import Bill from '../bill/index'
 import NewBill from '../bill/new'
 import Axios from 'axios';
+import './budget.css'
 
 class Budget extends Component {
   constructor() {
@@ -46,9 +47,15 @@ class Budget extends Component {
 
 
   render() {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ]
+
+
     return(
-      <div>
-        <button onClick={() => this.setState({newBill: true })}>Add Bill</button>
+      <div id="BudgetComponent">
+        <h3>{monthNames[new Date().getMonth()]}</h3>
+        <button id="addBillButton" onClick={() => this.setState({newBill: true })}>ADD BILL</button>
         <table>
           <tbody>
             <tr>
@@ -57,6 +64,8 @@ class Budget extends Component {
               <th>Amount Paid</th>
               <th>Due Date</th>
               <th>Paid?</th>
+              <th>Edit</th>
+              <th>Remove</th>
             </tr>
             {this.props.bills.map((bill, i) =>(
               <Bill key={i + bill.name} bill={bill} action={this.billCreatedOrEdited} deleteBill={this.deleteBill}/>
@@ -74,8 +83,12 @@ class Budget extends Component {
               </td>
               <td>
                 <strong>Remaining Bills: </strong>
+              </td>
+              <td>
                 ${this.props.totals.bills_remaining_total}
               </td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -87,7 +100,7 @@ class Budget extends Component {
 function mapStateToProps(state) {
   return {
     bills: state.bills.bills,
-    totals: state.bills.totals
+    totals: state.bills.totals,
   }
 }
 

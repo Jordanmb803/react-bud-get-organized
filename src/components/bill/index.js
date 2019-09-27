@@ -81,6 +81,7 @@ class Bill extends Component {
           return(
             <td key={col + i}>
               <input
+                className={`${col} input`}
                 readOnly={!this.state.editable}
                 type={k[1]}
                 value={this.state[col]}
@@ -89,8 +90,9 @@ class Bill extends Component {
             </td>
           )
         })}
-        <td>
+        <td align="center" className="checkbox_td">
           <input
+            className="paid_input"
             disabled={!this.state.editable}
             type="checkbox"
             value={this.state.paid}
@@ -98,14 +100,18 @@ class Bill extends Component {
             onClick={ e => this.handleClick(e)}
           />
         </td>
-        <td>
+      <td className={this.state.editable ? 'hidden' : 'td_button'}>
           <button hidden={this.state.editable} onClick={e => this.setState({editable: true })}>
-            Edit
+            EDIT
           </button>
+        </td>
+        <td className={this.state.editable ? 'td_button' : 'hidden'}>
           <button hidden={!this.state.editable} onClick={() => this.updateBill()}>
             DONE
           </button>
-          <button onClick={() => this.props.deleteBill(this.props.bill.id) }>
+        </td>
+        <td className="td_button">
+          <button className="red" onClick={() => this.props.deleteBill(this.props.bill.id) }>
             REMOVE
           </button>
         </td> 
