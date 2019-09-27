@@ -8,6 +8,12 @@ h3 {
   font-size: 40px;
 }
 
+table {
+  box-shadow: 3px 3px 25px grey;
+  border: none;
+  border-spacing: 0px;
+}
+
 #BudgetComponent{
   position: fixed;
   width: 60%;
