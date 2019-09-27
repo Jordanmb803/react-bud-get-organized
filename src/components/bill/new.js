@@ -20,6 +20,7 @@ class NewBill extends Component {
   }
 
   createBill() {
+    console.log(this.state.paid)
     const { name, bill_amount, due_date, paid, recurring, paid_amount } = this.state
     axios.post('/bill/create', {name, bill_amount, due_date, paid, recurring, paid_amount})
       .then(res => {
@@ -29,23 +30,28 @@ class NewBill extends Component {
   }
 
   handleClick() {
-    this.setState({
-      paid: !this.state.paid
-    })
-    if(this.state.paid === false) {
+    // this.setState({
+    //   paid: !this.state.paid
+    // })
+    if(this.state.paid == false) {
       this.setState({
-        paid_amount: this.state.bill_amount
+        paid_amount: this.state.bill_amount,
+        paid: !this.state.paid
       })
     } else {
       this.setState({
-        paid_amount: 0
+        paid_amount: 0,
+        paid: !this.state.paid
       })
     }
   }
 
   handleInput(e, col) {
     let paid = this.state.paid
-    e == this.state.bill_amount ? paid = true : paid = false
+
+    if(col == 'paid_amount') {
+      e == this.state.bill_amount ? paid = true : paid = false
+    }
 
     if(paid) {
       this.setState({

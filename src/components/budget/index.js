@@ -24,7 +24,6 @@ class Budget extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(this.state !== prevState){
-      console.log(`state changed`)
       this.props.getBills()
       this.props.getMonthlyBillTotal()
     }
@@ -38,7 +37,6 @@ class Budget extends Component {
 
   deleteBill(bill_id) {
     Axios.delete(`/bill/${bill_id}/delete`).then(res =>{
-      console.log(`bill deleted`)
       this.setState({
          deletedBill: true
        })
