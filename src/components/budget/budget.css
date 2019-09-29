@@ -1,11 +1,11 @@
 body * {
   box-sizing: border-box;
   padding: 0px;
-  font-family: 
 }
 
 h3 {
   font-size: 40px;
+  margin: 50px 0 0 0;
 }
 
 table {
@@ -14,19 +14,24 @@ table {
   border-spacing: 0px;
 }
 
-#BudgetComponent{
+#BudgetComponent {
+  width: 100%;
+}
+
+#billTable {
   position: fixed;
   width: 60%;
-  top: 50px;
+  top: 100px;
   left: 50%;
   margin-left: -30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   justify-items: center;
+  padding: 75px 0px;
 }
 
-#addBillButton  {
+#addRowButton  {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -42,7 +47,8 @@ tbody {
 tr {
   height: 50px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
+  justify-content: row;
 }
 
 td, th {
@@ -56,6 +62,18 @@ td, th {
   border: 1px solid grey;
   vertical-align: middle;
   text-align: center;
+}
+
+.totalDiv {
+  height: 100%;
+  width: 28.6%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.totalDiv > div {
+  width: 50%;
 }
 
 .hidden {

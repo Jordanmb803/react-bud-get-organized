@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getBills, getMonthlyBillTotal } from '../../ducks/reducers/bills';
-import Bill from '../bill/index'
-import NewBill from '../bill/new'
-import Axios from 'axios';
 import './budget.css'
+import Table from '../table/index'
+import Axios from 'axios'
 
 class Budget extends Component {
   constructor() {
     super()
     this.state = {
-        newBill: false,
-        deletedBill: false
+        newRow:    false,
+        deleteRow: false,
     }
-    this.billCreatedOrEdited = this.billCreatedOrEdited.bind(this)
-    this.deleteBill = this.deleteBill.bind(this)
+    this.createdOrEditedRow = this.createdOrEditedRow.bind(this)
+    this.deleteRow          = this.deleteRow.bind(this)
+    this.addNewRow          = this.addNewRow.bind(this)
   }
 
   componentDidMount() {
@@ -29,67 +29,49 @@ class Budget extends Component {
     }
   }
 
-  billCreatedOrEdited() {
+  createdOrEditedRow() {
     this.setState({
-      newBill: false,
+      newRow: false,
     })
   }
 
-  deleteBill(bill_id) {
+  deleteRow(bill_id) {
     Axios.delete(`/bill/${bill_id}/delete`).then(res =>{
       this.setState({
-         deletedBill: true
+         deleteRow: true
        })
     })
   }
 
+  addNewRow() {
+    this.setState({
+      newRow: true
+    })
+  }
 
   render() {
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ]
+    const billsTableHeaders = ['Name', 'Amount Due', 'Amount Paid', 'Due Date', 'Paid?', 'Edit', 'Remove']
+    const billsTableColumns = [['name', 'text'], ['bill_amount', 'text'], ['paid_amount', 'text'], ['due_date', 'date'], ['paid', 'checkbox']]
 
 
     return(
       <div id="BudgetComponent">
         <h3>{monthNames[new Date().getMonth()]}</h3>
-        <button id="addBillButton" onClick={() => this.setState({newBill: true })}>ADD BILL</button>
-        <table>
-          <tbody>
-            <tr>
-              <th>Rent</th>
-              <th>Amount Due</th>
-              <th>Amount Paid</th>
-              <th>Due Date</th>
-              <th>Paid?</th>
-              <th>Edit</th>
-              <th>Remove</th>
-            </tr>
-            {this.props.bills.map((bill, i) =>(
-              <Bill key={i + bill.name} bill={bill} action={this.billCreatedOrEdited} deleteBill={this.deleteBill}/>
-            ))}
-            {this.state.newBill ? <NewBill action={this.billCreatedOrEdited} /> : null}
-            <tr>
-              <td>
-                <strong>Totals:</strong>
-              </td>
-              <td>
-                ${this.props.totals.bill_amount_total}
-              </td>
-              <td>
-                ${this.props.totals.paid_amount_total}
-              </td>
-              <td>
-                <strong>Remaining Bills: </strong>
-              </td>
-              <td>
-                ${this.props.totals.bills_remaining_total}
-              </td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+
+        <Table 
+          tableId="bill"
+          headers={billsTableHeaders}
+          tableRow={this.props.bills}
+          totals={this.props.totals}
+          createdOrEditedRow={this.createdOrEditedRow}
+          deleteRow={this.deleteRow}
+          newRow={this.state.newRow}
+          addNewRow={this.addNewRow}
+          columns={billsTableColumns}
+        />
       </div>
     )
   }
