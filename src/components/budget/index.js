@@ -56,7 +56,6 @@ class Budget extends Component {
     const billsTableHeaders = ['Name', 'Amount Due', 'Amount Paid', 'Due Date', 'Paid?', 'Edit', 'Remove']
     const billsTableColumns = [['name', 'text'], ['bill_amount', 'text'], ['paid_amount', 'text'], ['due_date', 'date'], ['paid', 'checkbox']]
 
-
     return(
       <div id="BudgetComponent">
         <h3>{monthNames[new Date().getMonth()]}</h3>
