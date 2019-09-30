@@ -1,11 +1,15 @@
 import React from 'react'
 import Row from '../row/index'
 import NewRow from '../row/new'
+import '../income/income.css'
 
 export default function Table(props) {
+  console.log(props)
     return(
       <div id={`${props.tableId}Table`}>
-        <button id="addRowButton" onClick={() => props.addNewRow()}>ADD {props.tableId.toUpperCase()}</button>
+        <button id={`add_${props.tableId}_button`} className="addRowButton" onClick={() => props.addNewRow()}>
+          ADD {props.tableId.toUpperCase()}
+        </button>
         <table>
           <tbody>
             <tr>
@@ -15,7 +19,7 @@ export default function Table(props) {
                )
              })} 
             </tr>
-            {props.tableRow.map((row, i) =>(
+            {props.tableRows.map((row, i) =>(
               <Row 
                 key={i + row.name}
                 row={row}
@@ -25,15 +29,14 @@ export default function Table(props) {
                 columns={props.columns}
               />
             ))}
-            {props.newRow ?
+            { props.newRow ?
               <NewRow
                 action={props.createdOrEditedRow}
                 headers={props.headers}
                 columns={props.columns}
                 table={props.tableId}
-              /> 
-              : null
-            }
+              />
+              : null}
             <tr>
               <td>
                 <strong>Totals: </strong>
@@ -62,5 +65,3 @@ export default function Table(props) {
       </div>
     )
 }
-
-// export default Table

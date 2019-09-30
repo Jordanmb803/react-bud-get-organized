@@ -1,0 +1,15 @@
+#incomeTable {
+  width: 35%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#incomeTable tr {
+  width: 100%;
+}
+
+#incomeTable td, #incomeTable th {
+  width: 20%;
+}

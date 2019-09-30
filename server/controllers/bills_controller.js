@@ -10,10 +10,8 @@ module.exports = {
   getMonthlyBills: (req, res) => {
     req.app.get('db').get_monthly_bills([req.user.id, req.params.month])
       .then(bills => {
-        console.log(`request for bills for user: ${req.user.id} for month: ${req.params.month} recieved`)
         res.status(200).send(bills)
       }).catch( err => {
-        console.log(`error trying to get monthly bills`)
         res.status(500).send(err)
       })
   },
@@ -26,7 +24,6 @@ module.exports = {
   },
   createBill: (req, res) => {
     const { name, bill_amount, due_date, paid, recurring, paid_amount } = req.body
-    console.log(req.user.id)
     req.app.get('db').create_bill([name, bill_amount, due_date, paid, recurring, paid_amount, req.user.id])
       .then(bill => {
         res.status(200).send(bill)
@@ -40,8 +37,6 @@ module.exports = {
   getMonthlyBillsTotal: (req, res) => {
     req.app.get('db').get_monthly_bills_totals([req.user.id, req.params.month])
       .then(totals => {
-        console.log(totals)
-        console.log(`totals returned`)
         res.status(200).send(totals)
       })
   }

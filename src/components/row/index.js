@@ -22,7 +22,7 @@ class Row extends Component {
   componentDidMount(){
     const keys = Object.keys(this.props.row)
     keys.forEach(k => {
-      if(k === 'due_date'){
+      if(k === 'due_date' || k === 'income_date'){
         this.setState({
           [k]: this.props.row[k].split('T')[0]
         })
@@ -107,7 +107,7 @@ class Row extends Component {
           </button>
         </td>
         <td className="td_button">
-          <button className="red" onClick={() => this.props.deleteRow(this.props.row.id) }>
+          <button className="red" onClick={() => this.props.deleteRow(this.props.table, this.props.row.id) }>
             REMOVE
           </button>
         </td> 
