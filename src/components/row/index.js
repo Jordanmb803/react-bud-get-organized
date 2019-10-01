@@ -13,6 +13,8 @@ class Row extends Component {
       paid_amount: 0,
       paid: false,
       editable: false,
+      income_amount: 0,
+      income_date: ''
     }
     this.updateRow   = this.updateRow.bind(this)
     this.handleInput = this.handleInput.bind(this)
