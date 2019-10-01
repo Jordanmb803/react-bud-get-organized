@@ -6,8 +6,8 @@ import './budget.css'
 import Table from '../table/index'
 
 class Budget extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
     }
   }
@@ -19,8 +19,14 @@ class Budget extends Component {
     this.props.getMonthlyIncomeTotals()
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props !== prevProps){
+      this.props.getMonthlyIncomeTotals()
+      this.props.getMonthlyBillTotal()
+    }
+  }
+
   render() {
-    console.log(this.props.bills)
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ]
