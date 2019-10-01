@@ -1,67 +1,84 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Row from '../row/index'
 import NewRow from '../row/new'
 import '../income/income.css'
 
-export default function Table(props) {
-  console.log(props)
-    return(
-      <div id={`${props.tableId}Table`}>
-        <button id={`add_${props.tableId}_button`} className="addRowButton" onClick={() => props.addNewRow()}>
-          ADD {props.tableId.toUpperCase()}
-        </button>
-        <table>
-          <tbody>
-            <tr>
-             {props.headers.map((header, i) => {
-               return(
-                <th key={i + header}>{header}</th>
-               )
-             })} 
-            </tr>
-            {props.tableRows.map((row, i) =>(
-              <Row 
-                key={i + row.name}
-                row={row}
-                action={props.createdOrEditedRow}
-                deleteRow={props.deleteRow}
-                table={props.tableId}
-                columns={props.columns}
-              />
-            ))}
-            { props.newRow ?
-              <NewRow
-                action={props.createdOrEditedRow}
-                headers={props.headers}
-                columns={props.columns}
-                table={props.tableId}
-              />
-              : null}
-            <tr>
-              <td>
-                <strong>Totals: </strong>
-              </td>
-              {Object.keys(props.totals).map((tot, i) => {
-                {if(i == 2){
-                  return(
-                    <td className='totalDiv' key={tot + i }>
-                      <div><strong>Remaining: </strong></div> 
-                      <div>{props.totals[tot]}</div>
-                    </td>
-                  )
-                } else {
-                  return(
-                    <td key={tot + i}>
-                      {props.totals[tot]}
-                    </td>
-                  )
-                }}
-              })}
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    )
+export default class Table extends Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        addRow: false
+      }
+      this.rowCreated = this.rowCreated.bind(this)
+    }
+    
+    rowCreated(state) {
+      this.setState({
+        addRow: false
+      })
+      this.props.createRow(state)
+    }
+
+    render(){
+      return(
+        <div id={`${this.props.tableId}Table`}>
+          <button id={`add_${this.props.tableId}_button`} className="addRowButton" onClick={() => this.setState({addRow: true})}>
+            ADD {this.props.tableId.toUpperCase()}
+          </button>
+          <table>
+            <tbody>
+              <tr>
+              {this.props.headers.map((header, i) => {
+                return(
+                  <th key={i + header}>{header}</th>
+                )
+              })} 
+              </tr>
+              {this.props.tableRows.map((row, i) =>(
+                <Row 
+                  key={i + row.name}
+                  row={row}
+                  updateRow={this.props.updateRow}
+                  deleteRow={this.props.deleteRow}
+                  table={this.props.tableId}
+                  columns={this.props.columns}
+                />
+              ))}
+              { this.state.addRow ?
+                <NewRow
+                  action={this.rowCreated}
+                  headers={this.props.headers}
+                  columns={this.props.columns}
+                  table={this.props.tableId}
+                  createRow={this.props.createRow}
+                />
+                : null}
+              <tr>
+                <td>
+                  <strong>Totals: </strong>
+                </td>
+                {Object.keys(this.props.totals).map((tot, i) => {
+                  {if(i == 2){
+                    return(
+                      <td className='totalDiv' key={tot + i }>
+                        <div><strong>Remaining: </strong></div> 
+                        <div>{this.props.totals[tot]}</div>
+                      </td>
+                    )
+                  } else {
+                    return(
+                      <td key={tot + i}>
+                        {this.props.totals[tot]}
+                      </td>
+                    )
+                  }}
+                })}
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )
+  }
 }

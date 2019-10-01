@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 class NewRow extends Component {
   constructor(props){
@@ -12,15 +11,7 @@ class NewRow extends Component {
       recurring: false,
       paid_amount: 0,
     }
-    this.createRow = this.createRow.bind(this)
     this.handleInput = this.handleInput.bind(this)
-  }
-
-  createRow() {
-    axios.post(`/${this.props.table}/create`, this.state)
-      .then(res => {
-        this.props.action(res.data)
-      })
   }
 
   handleInput(e, col) {
@@ -77,7 +68,7 @@ class NewRow extends Component {
             <button className="red" onClick={() => this.props.action()}>Cancel</button>
         </td>
         <td>
-          <button className="green" onClick={() => this.createRow()}>Create Bill</button>
+          <button className="green" onClick={() => this.props.action(this.state)}>Create Bill</button>
         </td>
       </tr>
     )

@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBills, getMonthlyBillTotal } from '../../ducks/reducers/bills';
-import { getIncome, getMonthlyIncomeTotals } from '../../ducks/reducers/income'
+import { getBills, createBill, updateBill, getMonthlyBillTotal, deleteBill } from '../../ducks/reducers/bills';
+import { getIncome, createIncome, updateIncome, getMonthlyIncomeTotals, deleteIncome } from '../../ducks/reducers/income'
 import './budget.css'
 import Table from '../table/index'
-import Axios from 'axios'
 
 class Budget extends Component {
   constructor() {
     super()
     this.state = {
-        newRow:    false,
-        deleteRow: false,
     }
-    this.createdOrEditedRow = this.createdOrEditedRow.bind(this)
-    this.deleteRow          = this.deleteRow.bind(this)
-    this.addNewRow          = this.addNewRow.bind(this)
   }
 
   componentDidMount() {
@@ -25,37 +19,8 @@ class Budget extends Component {
     this.props.getMonthlyIncomeTotals()
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.state !== prevState){
-      this.props.getBills()
-      this.props.getMonthlyBillTotal()
-      this.props.getIncome()
-      this.props.getMonthlyIncomeTotals()
-    }
-  }
-
-  createdOrEditedRow() {
-    this.setState({
-      newRow: false,
-    })
-  }
-
-  deleteRow(table, id) {
-    console.log(`${table}, ${id}`)
-    Axios.delete(`/${table}/${id}/delete`).then(res =>{
-      this.setState({
-         deleteRow: true
-       })
-    })
-  }
-
-  addNewRow() {
-    this.setState({
-      newRow: true
-    })
-  }
-
   render() {
+    console.log(this.props.bills)
     const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ]
@@ -72,10 +37,9 @@ class Budget extends Component {
           headers={incomeTableHeaders}
           tableRows={this.props.income}
           totals={this.props.incomeTotals}
-          createdOrEditedRow={this.createdOrEditedRow}
-          deleteRow={this.deleteRow}
-          newRow={this.state.newRow}
-          addNewRow={this.addNewRow}
+          createRow={this.props.createIncome}
+          updateRow={this.props.updateIncome}
+          deleteRow={this.props.deleteIncome}
           columns={incomeTableColumns}
         />
         <Table 
@@ -83,10 +47,9 @@ class Budget extends Component {
           headers={billsTableHeaders}
           tableRows={this.props.bills}
           totals={this.props.totals}
-          createdOrEditedRow={this.createdOrEditedRow}
-          deleteRow={this.deleteRow}
-          newRow={this.state.newRow}
-          addNewRow={this.addNewRow}
+          createRow={this.props.createBill}
+          updateRow={this.props.updateBill}
+          deleteRow={this.props.deleteBill}
           columns={billsTableColumns}
         />
       </div>
@@ -103,4 +66,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { getBills, getMonthlyBillTotal, getIncome, getMonthlyIncomeTotals })(Budget)
+export default connect(mapStateToProps, { getBills, createBill, updateBill, getMonthlyBillTotal, deleteBill, getIncome, createIncome, updateIncome, getMonthlyIncomeTotals, deleteIncome })(Budget)

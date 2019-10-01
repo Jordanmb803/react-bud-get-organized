@@ -35,13 +35,10 @@ class Row extends Component {
   }
 
   updateRow() {
-    axios.put(`/${this.props.table}/update`, this.state )
-      .then(res => {
-        this.setState({
-          editable: false
-        })
-        this.props.action()
-      })
+    this.props.updateRow(this.state)
+    this.setState({
+      editable: false
+    })
   }
 
   handleInput(e, col) {
@@ -107,7 +104,7 @@ class Row extends Component {
           </button>
         </td>
         <td className="td_button">
-          <button className="red" onClick={() => this.props.deleteRow(this.props.table, this.props.row.id) }>
+          <button className="red" onClick={() => this.props.deleteRow(this.props.row.id) }>
             REMOVE
           </button>
         </td> 
