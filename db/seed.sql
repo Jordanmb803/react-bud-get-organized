@@ -22,3 +22,17 @@ CREATE TABLE income(
 , income_date DATE NOT NULL
 , user_id INTEGER NOT NULL
 )
+
+CREATE TABLE budgets(
+id serial PRIMARY KEY
+, user_id INTEGER
+, category VARCHAR (400)
+, category_amount INTEGER
+, current_category_balance INTEGER)
+
+CREATE TABLE transactions(
+id serial PRIMARY KEY
+, description VARCHAR (500)
+, transaction_amount INTEGER
+, budget_id INTEGER
+)

@@ -1,13 +1,14 @@
 require('dotenv').config()
 
-const express           = require('express')
-    , session           = require('express-session')
-    , bodyParser        = require('body-parser')
-    , massive           = require('massive')
-    , passport          = require('passport')
-    , strategy          = require(`${__dirname}/strategy.js`)
-    , bills_controller  = require('./controllers/bills_controller')
-    , income_controller = require('./controllers/income_controller')
+const express            = require('express')
+    , session            = require('express-session')
+    , bodyParser         = require('body-parser')
+    , massive            = require('massive')
+    , passport           = require('passport')
+    , strategy           = require(`${__dirname}/strategy.js`)
+    , bills_controller   = require('./controllers/bills_controller')
+    , income_controller  = require('./controllers/income_controller')
+    , budgets_controller = require('./controllers/budgets_controller')
 
 const {
   SERVER_PORT,
@@ -79,6 +80,11 @@ app.get('/income/totals/month/:month', income_controller.getMonthlyIncomeTotal)
 app.put('/income/update', income_controller.updateIncome)
 app.post('/income/create', income_controller.createIncome)
 app.delete('/income/:id/delete', income_controller.deleteIncome)
+
+app.get('/budget/index', budgets_controller.getAllUserBudgets)
+app.post('/budget/create', budgets_controller.createBudget)
+app.put('/budget/update', budgets_controller.updateBudget)
+app.delete('/budget/:id/delete', budgets_controller.deleteBudget)
 
 app.listen(SERVER_PORT, () => {
   console.log(`Server listening on port ${SERVER_PORT}`)
