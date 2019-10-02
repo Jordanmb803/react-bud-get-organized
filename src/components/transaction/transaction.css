@@ -1,0 +1,9 @@
+#transactionComponent {
+  display: flex;
+  flex-direction: row;
+}
+
+#transactionComponent > div {
+  display: flex;
+  flex-direction: row;
+}

@@ -12,8 +12,8 @@ module.exports = {
       })
   },
   updateBudget: (req, res) => {
-    const { category, category_amount, current_category_amount } = req.body
-    req.app.get('db').update_budget([category, category_amount, current_category_amount, req.user.id])
+    const { category, category_amount, current_category_amount, id} = req.body
+    req.app.get('db').update_budget([id, category, category_amount, current_category_amount])
       .then(budget => {
         res.status(200).send(budget)
       })

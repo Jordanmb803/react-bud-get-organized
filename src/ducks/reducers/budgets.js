@@ -34,7 +34,9 @@ export function createBudget(state) {
 
 export function updateBudget(state) {
   let data = axios.put(`/budget/update`, state).then(res => {
-    return res.data
+    return axios.get(`/budget/index`).then(res => {
+      return res.data
+    })
   })
 
   return {

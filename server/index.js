@@ -9,6 +9,7 @@ const express            = require('express')
     , bills_controller   = require('./controllers/bills_controller')
     , income_controller  = require('./controllers/income_controller')
     , budgets_controller = require('./controllers/budgets_controller')
+    , transactions_controller = require('./controllers/transactions_controller')
 
 const {
   SERVER_PORT,
@@ -85,6 +86,11 @@ app.get('/budget/index', budgets_controller.getAllUserBudgets)
 app.post('/budget/create', budgets_controller.createBudget)
 app.put('/budget/update', budgets_controller.updateBudget)
 app.delete('/budget/:id/delete', budgets_controller.deleteBudget)
+
+app.get('/transactions/index/:budget_id', transactions_controller.getAllTransactions)
+app.post('/transaction/create', transactions_controller.createTransaction)
+app.put('/transaction/update', transactions_controller.updateTransaction)
+app.delete('/transaction/:id/delete', transactions_controller.deleteTransaction)
 
 app.listen(SERVER_PORT, () => {
   console.log(`Server listening on port ${SERVER_PORT}`)
