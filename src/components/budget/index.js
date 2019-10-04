@@ -30,8 +30,13 @@ class Budget extends Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.editable !== prevState.editable){
+      this.props.getTransactions(this.props.budget.id)
+    }
+  }
+
   editBudget() {
-    console.log(this.state)
     this.props.updateBudget(this.state)
     this.setState({
       editable: false

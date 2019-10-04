@@ -5,15 +5,15 @@ module.exports = {
     })
   },
   createBudget: (req, res) => {
-    const { category, category_amount, current_category_amount } = req.body
-    req.app.get('db').create_budget([req.user.id, category, category_amount, current_category_amount])
+    const { category, category_amount, current_category_balance } = req.body
+    req.app.get('db').create_budget([req.user.id, category, category_amount, current_category_balance])
       .then(budget => {
         res.status(200).send(budget)
       })
   },
   updateBudget: (req, res) => {
-    const { category, category_amount, current_category_amount, id} = req.body
-    req.app.get('db').update_budget([id, category, category_amount, current_category_amount])
+    const { category, category_amount, current_category_balance, id} = req.body
+    req.app.get('db').update_budget([id, category, category_amount, current_category_balance])
       .then(budget => {
         res.status(200).send(budget)
       })
